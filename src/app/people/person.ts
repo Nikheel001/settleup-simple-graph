@@ -47,4 +47,8 @@ class Person
     "Money owed : "+this.__owed+"\n"+
     "Money owes to: \n"+owes_to;
   }
+
+  public *owes_to(): IterableIterator<String>{
+    return this.__owes.keys();
+  }  
 }
