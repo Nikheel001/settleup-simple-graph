@@ -1,4 +1,4 @@
-class person
+class Person
 {
   private __name:String;
   private __id:String;
