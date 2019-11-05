@@ -36,4 +36,15 @@ class Person
   public getName():String{
     return this.__name;
   }
+
+  public toString():String {
+    let owes_to:String = "";
+    this.__owes.forEach((money:Number, to:String ) => {
+      owes_to += " to : "+to + "Money : "+money+"\n";
+    });
+
+    return "Name : "+this.__name+"\n"+
+    "Money owed : "+this.__owed+"\n"+
+    "Money owes to: \n"+owes_to;
+  }
 }
