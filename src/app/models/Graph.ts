@@ -1,4 +1,4 @@
-import { User } from ".\User";
+import { User } from "./User";
 
 export class Graph {
   private _value: Map<String, User>;
@@ -45,7 +45,7 @@ export class Graph {
 
   public transaction(x, y, money) {
     let i: User = this.value.get(x);
-    let M: Number = i.Owes.get(y);
+    let M: number = i.Owes.get(y);
     M += money;
     i.Owes.set(y, M);
   }
