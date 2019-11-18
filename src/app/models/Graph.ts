@@ -1,7 +1,9 @@
 import { User } from "./User";
 
 export interface Graph {
-
+  Value:Map<String, User>;
+  Name:String;
+  Id:String;
 }
 
 export class _Graph {
@@ -26,12 +28,12 @@ export class _Graph {
   }
 
   public get Value(): Map<String, User> {
-    return this._Value;
+    return this._value;
   }
 
   public set Value(newValue) {
     newValue.forEach((i, j) => {
-      if (!(j instanceof User)) {
+      if (!(typeof(j) == User)) {
         console.log("Invalid Value");
         return;
       }
