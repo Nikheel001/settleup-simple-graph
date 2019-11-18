@@ -1,4 +1,13 @@
-export class User {
+export interface User
+{
+  ObjectId: String;
+  Name: String;
+  Owed: number;
+  Owes: Map<String, number>;
+  CellNo: String;
+}
+
+class _User implements User {
   private __name: String;
   private __id: String;
   private __owes: Map<String, number>;
@@ -103,7 +112,7 @@ export class User {
   }
 
   public static fromDict(usr: Map<String, any>) {
-    let x: User = new User();
+    let x: User = new _User();
 
     x.ObjectId = usr.get("_id");
     x.Name = usr.get("name");

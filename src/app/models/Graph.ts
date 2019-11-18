@@ -1,6 +1,10 @@
 import { User } from "./User";
 
-export class Graph {
+export interface Graph {
+
+}
+
+export class _Graph {
   private _value: Map<String, User>;
   private _id: String;
   private _name: String;
@@ -13,19 +17,19 @@ export class Graph {
     this._visit_it = new Set<String>();
   }
 
-  public get name(): String {
+  public get Name(): String {
     return this._name;
   }
 
-  public set name(newName: String) {
+  public set Name(newName: String) {
     this._name = newName;
   }
 
-  public get value(): Map<String, User> {
-    return this._value;
+  public get Value(): Map<String, User> {
+    return this._Value;
   }
 
-  public set value(newValue) {
+  public set Value(newValue) {
     newValue.forEach((i, j) => {
       if (!(j instanceof User)) {
         console.log("Invalid Value");
@@ -44,28 +48,28 @@ export class Graph {
   }
 
   public transaction(x, y, money) {
-    let i: User = this.value.get(x);
+    let i: User = this.Value.get(x);
     let M: number = i.Owes.get(y);
     M += money;
     i.Owes.set(y, M);
   }
 
   public process(x, y, Money) {
-    if (!this.value.has(y)) {
+    if (!this.Value.has(y)) {
       return;
     }
-    let ychd: Set<String> = this.value.get(y).owes_to();
+    let ychd: Set<String> = this.Value.get(y).owes_to();
 
     while (ychd.size > 0) {
       ychd.forEach(yc => {
-        let amt = this.value.get(y).owedMoney(x);
+        let amt = this.Value.get(y).owedMoney(x);
         if (Money > amt) {
           let tmp = Money;
           Money = amt;
           amt = tmp;
         }
-        this.value.get(x).pay(y, Money);
-        this.value.get(y).pay(yc, Money);
+        this.Value.get(x).pay(y, Money);
+        this.Value.get(y).pay(yc, Money);
         if (yc != x) {
           this.transaction(x, yc, Money);
           if (!this._visit_it.has(yc)) {
@@ -77,7 +81,7 @@ export class Graph {
   }
 
   public showNetwork() {
-    console.log(this.value);
+    console.log(this.Value);
   }
 
   public clearGraph() {
@@ -95,28 +99,28 @@ export class Graph {
   }
 
   public static fromDict(graph) {
-    let x = new Graph();
-    x.name = graph.get("name");
-    x.value = graph.get("value");
+    let x = new _Graph();
+    x.Name = graph.get("name");
+    x.Value = graph.get("value");
     x.Id = graph.get("_id");
     return x;
   }
 
   public graphAsDict() {
     let view = new Map<String, any>();
-    view.set("name", this.name);
-    view.set("value", this.value);
+    view.set("name", this.Name);
+    view.set("value", this.Value);
   }
 
   public processAll() {
-    this._visit_it = new Set<String>(this.value.keys());
+    this._visit_it = new Set<String>(this.Value.keys());
     this._visit_it.forEach(k => {
       if (this._visit_it.has(k)) {
-        this.value
+        this.Value
           .get(k)
           .owes_to()
           .forEach(i => {
-            this.process(k, i, this.value.get(k).owedMoney(i));
+            this.process(k, i, this.Value.get(k).owedMoney(i));
           });
       }
     });
