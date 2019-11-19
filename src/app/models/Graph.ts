@@ -6,10 +6,6 @@ export interface Graph {
   Id: String;
 }
 
-function instanceOfA(object: any): object is Graph {
-    return (("Value" in object) && ("Name" in object) && ("Id" in object));
-}
-
 export class _Graph {
   private _value: Map<String, User>;
   private _id: String;
@@ -35,13 +31,7 @@ export class _Graph {
     return this._value;
   }
 
-  public set Value(newValue) {
-    newValue.forEach((i, j) => {
-      if (!(typeof j === User)) {
-        console.log("Invalid Value");
-        return;
-      }
-    });
+  public set Value(newValue: Map<String, User>) {
     this._value = newValue;
   }
 
@@ -102,6 +92,10 @@ export class _Graph {
     marked.forEach(m => {
       nodes.delete(m);
     });
+  }
+
+  public instanceOfGraph(object: any): object is Graph {
+    return (("Value" in object) && ("Name" in object) && ("Id" in object));
   }
 
   public static fromDict(graph) {

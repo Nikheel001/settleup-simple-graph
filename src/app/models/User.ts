@@ -1,5 +1,8 @@
-export interface User
-{
+export interface UserM {
+  new (ObjectId, Name, Owed, Owes, CellNo): User;
+}
+
+export interface User {
   ObjectId: String;
   Name: String;
   Owed: number;
@@ -10,8 +13,22 @@ export interface User
   owedMoney(to: String): number;
   pay(to, Money: number);
   size(): number;
-  userAsDict():Map<String, any>;
+  userAsDict(): Map<String, any>;
+  UserfromDict(usr: Map<String, any>): User;
 }
+
+function CreateUser(ctor: UserM, ObjectId, Name, Owed, Owes, CellNo): User {
+  return new ctor(ObjectId, Name, Owed, Owes, CellNo);
+}
+
+/*
+  verify weather no already exists in db
+  pin verification from user's cell
+  returns true or false
+  */
+  function verifyCellNo(no): boolean {
+    return true;
+  }
 
 class _User implements User {
   private __name: String;
@@ -41,6 +58,7 @@ class _User implements User {
   }
 
   public get ObjectId(): String {
+  
     return this.__id;
   }
 
@@ -66,14 +84,16 @@ class _User implements User {
       owes_to += " to : " + to + "Money : " + money + "\n";
     });
 
-    return "Name : " +
+    return (
+      "Name : " +
       this.__name +
       "\n" +
       "Money owed : " +
       this.__owed +
       "\n" +
       "Money owes to: \n" +
-      owes_to;
+      owes_to
+    );
   }
 
   public owes_to(): Set<String> {
@@ -97,7 +117,7 @@ class _User implements User {
     return this.__owes.size;
   }
 
-  public userAsDict():Map<String, any> {
+  public userAsDict(): Map<String, any> {
     let view = new Map<String, any>();
     view.set("name", this.Name);
     view.set("owed", this.Owed);
@@ -106,23 +126,25 @@ class _User implements User {
     return view;
   }
 
-  /*
-  verify weather no already exists in db
-  pin verification from user's cell
-  returns true or false
-  */
-  public static verifyCellNo(no): boolean {
-    return true;
-  }
-
-  public static fromDict(usr: Map<String, any>) {
-    let x: User = new _User();
-
+  public UserfromDict(usr: Map<String, any>): User
+  {
+    let x = new _User();
     x.ObjectId = usr.get("_id");
     x.Name = usr.get("name");
     x.Owed = usr.get("owed");
     x.Owes = usr.get("owes");
     x.CellNo = usr.get("no");
-    return x;
+    return x as User;
   }
+
+  // public static isinstanceOfUser(object: any): boolean {
+  //   return (
+  //     "ObjectId" in object &&
+  //     "Name" in object &&
+  //     "Owed" in object &&
+  //     "Owes" in object &&
+  //     "CellNo" in object
+  //   );
+  // }
+
 }
