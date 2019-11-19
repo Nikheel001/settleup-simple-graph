@@ -5,6 +5,12 @@ export interface User
   Owed: number;
   Owes: Map<String, number>;
   CellNo: String;
+
+  owes_to(): Set<String>;
+  owedMoney(to: String): number;
+  pay(to, Money: number);
+  size(): number;
+  userAsDict():Map<String, any>;
 }
 
 class _User implements User {
@@ -54,22 +60,20 @@ class _User implements User {
     this.__cellNo = no;
   }
 
-  public toString(): String {
-    let owes_to: String = "";
-    this.__owes.forEach((money: number, to: String) => {
+  public toString(): string {
+    let owes_to: string = "";
+    this.__owes.forEach((money: number, to: string) => {
       owes_to += " to : " + to + "Money : " + money + "\n";
     });
 
-    return (
-      "Name : " +
+    return "Name : " +
       this.__name +
       "\n" +
       "Money owed : " +
       this.__owed +
       "\n" +
       "Money owes to: \n" +
-      owes_to
-    );
+      owes_to;
   }
 
   public owes_to(): Set<String> {
@@ -93,7 +97,7 @@ class _User implements User {
     return this.__owes.size;
   }
 
-  public userAsDict() {
+  public userAsDict():Map<String, any> {
     let view = new Map<String, any>();
     view.set("name", this.Name);
     view.set("owed", this.Owed);

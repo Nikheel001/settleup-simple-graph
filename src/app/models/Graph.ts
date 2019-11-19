@@ -1,9 +1,13 @@
 import { User } from "./User";
 
 export interface Graph {
-  Value:Map<String, User>;
-  Name:String;
-  Id:String;
+  Value: Map<String, User>;
+  Name: String;
+  Id: String;
+}
+
+function instanceOfA(object: any): object is Graph {
+    return (("Value" in object) && ("Name" in object) && ("Id" in object));
 }
 
 export class _Graph {
@@ -33,7 +37,7 @@ export class _Graph {
 
   public set Value(newValue) {
     newValue.forEach((i, j) => {
-      if (!(typeof(j) == User)) {
+      if (!(typeof j === User)) {
         console.log("Invalid Value");
         return;
       }
@@ -118,8 +122,7 @@ export class _Graph {
     this._visit_it = new Set<String>(this.Value.keys());
     this._visit_it.forEach(k => {
       if (this._visit_it.has(k)) {
-        this.Value
-          .get(k)
+        this.Value.get(k)
           .owes_to()
           .forEach(i => {
             this.process(k, i, this.Value.get(k).owedMoney(i));
