@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { GraphServiceService } from "./../../services/graph-service.service";
-import { Graph } from "./../../models/graph";
+import { GraphServiceService } from "./../../../services/graph-service.service";
+import { Graph } from "./../../../models/graph";
 
 @Component({
   selector: "app-group-list",
@@ -12,7 +12,7 @@ export class GroupListComponent implements OnInit {
 
   getGroups(): void {
     this.graphServiceService
-      .getGroups()
+      .getGraphs()
       .subscribe(groups => (this.groupList = groups));
   }
   ngOnInit() {
