@@ -14,6 +14,10 @@ export class UserServiceService {
     return of(this.UserList);
   }
 
+  public getNUser(start: number, N: number): Observable<User[]> {
+    return of(this.UserList.slice(start, start + N));
+  }
+
   UserList: User[] = [
     {
       ObjectId: "",

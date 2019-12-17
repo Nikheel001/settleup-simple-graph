@@ -15,5 +15,9 @@ export class GraphServiceService {
     return of(this.GroupList);
   }
 
+  public getNGraph(start: number, N: number): Observable<Graph[]> {
+    return of(this.GroupList.slice(start, start + N));
+  }
+
   GroupList: Graph[] = [{ Value: new Map<String, User>(), Name: "", Id: "" }];
 }
